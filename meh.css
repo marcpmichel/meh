@@ -1,0 +1,16 @@
+/* * {box-sizing: border-box} */
+* { box-sizing: border-box; }
+html, body { background-color:#234; height:100%; width:100%; margin:0; padding: 0; display: flex; overflow: hidden; }
+body { font-family: Arial; }
+div { display:flex; color: white; padding: 0px; margin: 0px; }
+.view { display: flex; flex: 1; }
+.rows { display:flex; flex-flow: column nowrap; flex: 1; border: 1px solid red; }
+.cols { display:flex; flex-flow: row nowrap;  flex: 1; border: 1px solid blue; }
+.template { display: flex; flex: 1; border: 1px solid green; }
+.label { display: flex; flex: 1; }
+.label.autowidth { flex: 0; }
+.button { display: flex; flex: 0 0 auto; width: auto; padding-right: 1em; padding-left: 1em; padding-top: 0.5em; height: 32px; border: 1px solid black; border-radius: 5px; text-align: center; margin: 0.5em; }
+.button:hover { background-color: rgba(128,128,128,0.8); cursor: pointer; }
+
+
+/* https://codepen.io/anon/pen/XaadLW */
