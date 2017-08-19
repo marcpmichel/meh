@@ -24,10 +24,11 @@ meh.addView = function(conf={}, parentEl) {
 meh.ui = {};
 
 meh.ui.View = {
-  
+	$init: function(el) { this._el = el; console.log("hello"); },
+	$destroy: function() { }
 }
 
-meh.ui.button = _.extend({
+meh.ui.Button = _.extend({
   
 }, meh.ui.View)
 
@@ -53,6 +54,8 @@ meh.build=function(ui={}, parentEl=document.body) {
         break
         case 'button':
           this.addView({html: ui.label, class:'button'}, parentEl)
+					const b = _.clone(meh.ui.Button);
+					b.$init("meh");
         break
         case 'label':
           this.addView({html: ui.label, class:'label autowidth'}, parentEl)
