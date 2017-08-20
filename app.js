@@ -2,7 +2,7 @@
 ui = {};
 ui.toolbar = { cols: [
   { view:'label', label:'Title' },
-  { view:'button', label:'Click' }
+  { view:'button', label:'Click', click:function() { alert('clicked') } }
 ]}
 
 ui.col2 = { view:'layout', rows: [
