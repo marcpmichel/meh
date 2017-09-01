@@ -4,6 +4,9 @@ html, body { background-color:#234; height:100%; width:100%; margin:0; padding: 
 body { font-family: Arial; }
 div { display:flex; color: white; padding: 0px; margin: 0px; }
 .view { display: flex; flex: 1; }
+.header { display: flex; flex: 0 0 32px; padding: 0.5em; height: 24px; background-color:#321; }
+.list { display: block; }
+.item { border-bottom: 1px solid gray; padding: 0.25em; }
 .rows { display:flex; flex-flow: column nowrap; flex: 1; border: 1px solid red; }
 .cols { display:flex; flex-flow: row nowrap;  flex: 1; border: 1px solid blue; }
 .template { display: flex; flex: 1; border: 1px solid green; }
@@ -11,6 +14,8 @@ div { display:flex; color: white; padding: 0px; margin: 0px; }
 .label.autowidth { flex: 0; }
 .button { display: flex; flex: 0 0 auto; width: auto; padding-right: 1em; padding-left: 1em; padding-top: 0.5em; height: 32px; border: 1px solid black; border-radius: 5px; text-align: center; margin: 0.5em; }
 .button:hover { background-color: rgba(128,128,128,0.8); cursor: pointer; }
+.selectable {}
+.selectable:hover { background-color: #456; cursor: pointer; }
 
 
 /* https://codepen.io/anon/pen/XaadLW */
