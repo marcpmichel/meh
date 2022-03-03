@@ -121,6 +121,9 @@ meh.declare("template", {
   render: function(parentEl) {
     this.el = meh.addView({html: this.config.template, class:"template"}, parentEl)
 		this.parentEl = parentEl
+  },
+  html: function(content) {
+    this.el.innerHTML = content;
   }
 }, meh.ui.view)
 

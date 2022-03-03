@@ -33,7 +33,8 @@ ui.list = { id:'list', view:'list', select: true,
 
 ui.col3 = { rows: [
 	{ id:'h1', view:'header', label: 'This is a list' },
-	ui.list
+	ui.list,
+  { id:'template', view:'template', template:'hey' }
 ]}
 
 ui.layout = { view:'layout', cols: [
@@ -82,6 +83,7 @@ ui.tabstest = { rows: [
 
 meh.ready(function() {
   meh.build({cols: [ui.col3, ui.menutest, ui.tabstest] })
+
   meh.view('h1').on('click', function() { alert("clicked on header") });
   meh.view('menu').on('itemclick', function(evt) { 
     console.log("clicked on menu item " + evt.item_id); });
@@ -91,6 +93,13 @@ meh.ready(function() {
     console.log("clicked on tab " + evt.item_id); 
     meh.view('multiview').select(evt.view_id);
   });
+
+
+  setInterval(() => {
+    const content = (new Date()).toISOString();
+     meh.view('template').html(content);
+  }, 1000);
+
 });
 
 
