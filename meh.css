@@ -1,21 +1,26 @@
 /* * {box-sizing: border-box} */
 * { box-sizing: border-box; }
-html, body { background-color:#234; height:100%; width:100%; margin:0; padding: 0; display: flex; overflow: hidden; }
+html, body { background-color:#222; height:100%; width:100%; margin:0; padding: 0; display: flex; overflow: hidden; }
 body { font-family: Arial; }
 div { display:flex; color: white; padding: 0px; margin: 0px; }
 .view { display: flex; flex: 1; }
 .header { display: flex; flex: 0 0 32px; padding: 0.5em; height: 24px; background-color:#321; }
 .list { display: block; }
+.menu { display: block; }
+.menuitem { font-size: 2em; border-radius: 5px; margin: 0.25em; border: 1px solid gray; padding: 0.25em; }
 .item { border-bottom: 1px solid gray; padding: 0.25em; }
-.rows { display:flex; flex-flow: column nowrap; flex: 1; border: 1px solid red; }
-.cols { display:flex; flex-flow: row nowrap;  flex: 1; border: 1px solid blue; }
+.rows { display:flex; flex-flow: column nowrap; flex: 1; border: 1px solid gray; }
+.cols { display:flex; flex-flow: row nowrap;  flex: 1; border: 1px solid gray; }
 .template { display: flex; flex: 1; border: 1px solid green; }
 .label { display: flex; flex: 1; }
 .label.autowidth { flex: 0; }
 .button { display: flex; flex: 0 0 auto; width: auto; padding-right: 1em; padding-left: 1em; padding-top: 0.5em; height: 32px; border: 1px solid black; border-radius: 5px; text-align: center; margin: 0.5em; }
 .button:hover { background-color: rgba(128,128,128,0.8); cursor: pointer; }
-.selectable {}
+/* .selectable {} */
 .selectable:hover { background-color: #456; cursor: pointer; }
+.tab { display:'inline-block', border-radius: 10px; border: 1px solid gray; height: 2em; }
+.tab-active { background-color: #AAA; }
+.tab:hover { background-color: rgba(128,128,128,0.8); cursor: pointer; }
 
 
 /* https://codepen.io/anon/pen/XaadLW */
