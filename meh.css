@@ -1,11 +1,15 @@
 /* * {box-sizing: border-box} */
 * { box-sizing: border-box; }
 html, body { background-color:#222; height:100%; width:100%; margin:0; padding: 0; display: flex; overflow: hidden; }
-body { font-family: Arial; }
+body { font-family: Arial; font-size: 1em; }
 div { display:flex; color: white; padding: 0px; margin: 0px; }
 .view { display: flex; flex: 1; }
-.header { display: flex; flex: 0 0 32px; padding: 0.5em; height: 24px; background-color:#321; }
+.header { display: flex; flex: 0 0 32px; padding: 0.5em; font-size: 2em; height: 24px; background-color:#321; }
 .list { display: block; }
+.config { display: block; }
+.configitem { padding-bottom: 0.5em; border-bottom: 1px dotted gray; }  
+.configitemname { padding-right: 0.5em; }
+.configitemvalue { border-left: 1px dotted gray; }
 .menu { display: block; }
 .menuitem { font-size: 2em; border-radius: 5px; color: black; background-color: gray; border-top: 1px solid white; border-left: 1px solid white; border-right: 1px solid darkgray; border-bottom: 1px solid darkgray; margin: 0.25em; padding: 0.25em; }
 .menuitem:active { border-top: 1px solid darkgray; border-left: 1px solid darkgray; border-right: 1px solid white; border-bottom: 1px solid white;  }
@@ -25,6 +29,9 @@ div { display:flex; color: white; padding: 0px; margin: 0px; }
   border-top: 1px solid lightgray; border-left: 1px solid lightgray; border-right: 1px solid darkgray; border-bottom: 1px solid darkgray; }
 .tab:active { background-color: gray; color: black; }
 .tab:hover { background-color: lightgray; cursor: pointer; }
-
+// .form {}
+.formfieldcontainer { padding: 0.5em; }
+.formfieldlabel { display:block; }
+.formfieldvalue { display:block; }
 
 /* https://codepen.io/anon/pen/XaadLW */

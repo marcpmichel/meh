@@ -14,15 +14,17 @@ meh.view = function(viewId) {
 	return meh._views[viewId]
 }
 
-meh.addView = function(conf={}, parentEl) {
-    const el = document.createElement('div')
+meh.addView = function(conf={}, parentEl, elem='div', elemtype) {
+    const el = document.createElement(elem);
     if(conf.id) el.id = conf.id;
     if(conf.hidden) el.style.display = 'none';
-    el.className = "view " + conf.class
-    el.innerHTML = conf.html || ""
-    if(el.width) el.style += `flex 0 0 ${width}`
-    else if(el.height) el.style += `flex 0 0 ${height}`
-    parentEl.appendChild(el)
+    if(conf.display) el.style.display = conf.display;
+    el.className = "view " + conf.class;
+    el.innerHTML = conf.html || "";
+    if(elemtype) el.type = elemtype;
+    if(el.width) el.style += `flex 0 0 ${width}`;
+    else if(el.height) el.style += `flex 0 0 ${height}`;
+    parentEl.appendChild(el);
     return el
 }
 
@@ -112,8 +114,8 @@ meh.declare("view", {
   $addSubview: function(view) {
     this._views[view.id] = view;
   },
-  $add(conf, parentEl) {
-    this.el = meh.addView(conf, parentEl);
+  $add(conf, parentEl, elem, elemtype) {
+    this.el = meh.addView(conf, parentEl, elem, elemtype);
     if(!this.config.hidden) this.show();
     this.parentEl = parentEl;
   },
@@ -148,9 +150,6 @@ meh.declare("view", {
 meh.declare("template", {
   render: function(parentEl) {
     this.$add({html: this.config.template, class:"template"}, parentEl);
-    // this.el = meh.addView({html: this.config.template, class:"template"}, parentEl)
-    // if(!this.config.hidden) this.show();
-		// this.parentEl = parentEl
   },
   html: function(content) {
     this.el.innerHTML = content;
@@ -159,32 +158,24 @@ meh.declare("template", {
 
 meh.declare("button", {
   render: function(parentEl) {
-    // this.el = meh.addView({html: this.config.label, class:'button'}, parentEl)
-		// this.parentEl = parentEl;
     this.$add({html: this.config.label, class:'button'}, parentEl);
   }
 }, meh.ui.view )
 
 meh.declare("label", {
   render: function(parentEl) {
-    // this.el = meh.addView({html: this.config.label, class:'label autowidth'}, parentEl)
-		// this.parentEl = parentEl
     this.$add({html: this.config.label, class:'label autowidth'}, parentEl);
   }
 }, meh.ui.view)
 
 meh.declare("header", {
 	render: function(parentEl) {
-		this.$add({html: this.config.label, class:"header" }, parentEl);
-		// this.el = meh.addView({html: this.config.label, class:"header" }, parentEl);
-		// this.parentEl = parentEl;
+		this.$add({html: this.config.label, class:"header", height:'24px' }, parentEl);
 	}
 }, meh.ui.view)
 
 meh.declare("list", {
   render: function(parentEl) {
-    // this.el = meh.addView({ class:"list"}, parentEl)
-		// this.parentEl = parentEl
     this.$add({ class:"list"}, parentEl);
 		var listEl = this.el;
 		if(this.config.data) {
@@ -202,12 +193,31 @@ meh.declare("list", {
 			});
 		}
   }
-}, meh.ui.view )
+}, meh.ui.view );
+
+meh.declare('config', {
+  render: function(parentEl) {
+    this.$add({class:'config'}, parentEl);
+    this.update(this.config.data);
+  },
+  clear() {
+    this.el.innerHTML = '';
+  },
+  update(fields) {
+    this.clear();
+    if(fields) {
+      fields.forEach((f) => {
+         const row = meh.addView({class: 'configitem', display:'table-row'}, this.el, 'div'); 
+         meh.addView({html: f.name, class: 'configitemname', display:'table-cell'}, row, 'div');
+         meh.addView({html: f.value, class: 'configitemvalue', display:'table-cell'}, row, 'div');
+      });
+    }
+  }
+}, meh.ui.view );
+
 
 meh.declare("menu", {
   render: function(parentEl) {
-    // this.el = meh.addView({class:"menu"}, parentEl)
-    // this.parentEl = parentEl;
     this.$add({class:"menu"}, parentEl);
     if(this.config.data) {
       const item_class = "menuitem selectable";
@@ -228,8 +238,6 @@ meh.declare("tabs", {
   render: function(parentEl) {
     this._tabs = [];
     this.$add({ class:"tabs"}, parentEl);
-    // this.el = meh.addView({ class:"tabs"}, parentEl)
-    // this.parentEl = parentEl;
 
     if(this.config.tabs) {
       this.current = this.config.tabs[0].id;
@@ -252,8 +260,6 @@ meh.declare("tabs", {
 meh.declare('multiview', {
   render: function(parentEl) {
     this.$add({class:'multiview'}, parentEl);
-    // this.el = meh.addView({class:'multiview'}, parentEl);
-    // this.parentEl = parentEl;
     this.view_ids = [];
 
     if(this.config.views) {
@@ -274,6 +280,43 @@ meh.declare('multiview', {
           v.el.style.display = (vid == view_id) ? 'block' : 'none';
         }
       });
+  }
+}, meh.ui.view);
+
+meh.declare('form', {
+  render: function(parentEl) {
+    this.$add({class:'form'}, parentEl);
+    this.fields(this.config.fields);
+  },
+  fields(fieldsDef) {
+    this._fields = {};
+    while (this.el.firstChild) { this.el.firstChild.remove(); }
+
+    if(!Array.isArray(fieldsDef)) return;
+
+    fieldsDef.forEach((f) => {
+      const container = this.config.inline ? meh.addView({class:'formfieldcontainer'}, this.el) : this.el;
+      const label = meh.addView({class:'formfieldlabel'}, container);
+      label.innerHTML = f.name;
+      switch(f.type) {
+        case 'string': this._fields[f.name] = meh.addView({class:'formfieldvalue'}, container, 'input', 'text'); break;
+        case 'text': this._fields[f.name] = meh.addView({class:'formfieldvalue'}, container, 'textarea'); break;
+        case 'number': this._fields[f.name] = meh.addView({class:'formfieldvalue'}, container, 'input', 'number'); break;
+        default: meh.addView({}, container); break;
+      }
+    });
+
+    if(this.config.submit != false) {
+      const formsubmit = meh.addView({class:'formsubmit'}, this.el);
+      // const submitbutton = meh.addView({class:'formsubmitbutton', html:'Submit', width: '50px'}, formsubmit, 'button');
+      const submitbutton = meh.constructView({view: 'button', label:'Submit' }, formsubmit);
+      submitbutton.on('click', () => {
+        const res = Object.keys(this._fields).map((k) => { return {name: k, value: this._fields[k].value } });
+        console.log(res);
+        // dispatch submit event
+        this.dispatch('submit', res);
+      });
+    }
   }
 }, meh.ui.view);
 
